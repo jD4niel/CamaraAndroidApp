@@ -25,7 +25,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="20dp"
-        android:onClick="Mensaje"
+        android:onClick="abrirGaleria"
         android:text="Galeria" />
 
     <FrameLayout
