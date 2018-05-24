@@ -61,6 +61,7 @@ public class InicioCamara extends AppCompatActivity {
                     fos.close();
                     Intent siguiente = new Intent(InicioCamara.this, VerFoto.class);
                     siguiente.putExtra("foto",file.getAbsolutePath().toString());
+                    siguiente.putExtra("nombre_foto",file.getName().toString());
                     System.out.println(file.getAbsolutePath().toString());
                     startActivity(siguiente);
 

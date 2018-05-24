@@ -3,6 +3,7 @@ package com.example.dany.proyectocamara;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -40,6 +41,16 @@ public class VerFoto extends AppCompatActivity {
         startActivity(regresar);
     }
     public void guardar(View view){
+        String dato=getIntent().getStringExtra("foto");
+        String nombre=getIntent().getStringExtra("nombre_foto");
+        String folder = Environment.getExternalStorageDirectory()+File.separator+"GUI/foto_cifrada_"+nombre;
+        System.out.println("");
+        System.out.println("\n \n");
+        System.out.println("folder es: " + folder);
+        System.out.println("\n \n");
+
+        CifradoBytes cifrado = new CifradoBytes();
+        cifrado.copia(dato, folder, 1111111111);
         Intent regresar = new Intent(VerFoto.this, InicioCamara.class);
         startActivity(regresar);
     }
