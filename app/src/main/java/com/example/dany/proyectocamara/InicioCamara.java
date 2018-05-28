@@ -4,7 +4,9 @@ package com.example.dany.proyectocamara;
 import android.content.Intent;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
+import android.media.MediaPlayer;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,11 +42,12 @@ public class InicioCamara extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_camara);
         frameLayout = (FrameLayout)findViewById(R.id.frameLayout);
-
         //Abrir Camara
         camera = Camera.open();
         muestraCamara = new MostrarCamara(this,camera);
         frameLayout.addView(muestraCamara);
+
+
     }
 
     final Camera.PictureCallback mPictureCallback = new Camera.PictureCallback() {
@@ -93,9 +96,10 @@ public class InicioCamara extends AppCompatActivity {
 
     //Tomar Foto
     public void TomarFoto(View view){
-        if (camera!=null){
-            camera.takePicture(null,null,mPictureCallback);
-        }
+        final MediaPlayer mp = MediaPlayer.create(this, R.raw.click);
+        mp.start();
+        if (camera!=null) camera.takePicture(null,null,mPictureCallback);
+
     }
     public void abrirGaleria(View view){
         Intent i = new Intent(Intent.ACTION_PICK,

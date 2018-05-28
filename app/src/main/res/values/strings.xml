@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">ProyectoCamara</string>
+    <string name="app_name">CriptoCam</string>
+    <string name="nuevo_nombre">Nuevo nombre</string>
+    <string name="nombre">Nombre</string>
+    <string name="asignar_nombre">Asignar nombre</string>
 </resources>

@@ -9,31 +9,35 @@
 
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="13dp"
-        android:onClick="TomarFoto"
-        android:text="Capturar" />
-
-    <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:layout_marginBottom="13dp"
         android:layout_marginEnd="20dp"
+        android:background="@drawable/estilo_boton"
         android:onClick="abrirGaleria"
-        android:text="Galeria" />
+        android:text="Galeria"
+        android:textColor="#fff" />
 
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="467dp"
+        android:layout_height="471dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true">
 
     </FrameLayout>
+
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="107dp"
+        android:layout_height="107dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="23dp"
+        android:background="@drawable/boton_tomar_foto"
+        android:onClick="TomarFoto" />
+
 </RelativeLayout>
