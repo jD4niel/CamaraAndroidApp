@@ -1,18 +1,31 @@
 package com.example.dany.proyectocamara;
 
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.media.MediaPlayer;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
+import android.support.v4.content.CursorLoader;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.SurfaceHolder;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -22,6 +35,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 public class InicioCamara extends AppCompatActivity {
     Calendar now = Calendar.getInstance();
@@ -32,11 +46,18 @@ public class InicioCamara extends AppCompatActivity {
     int minute = now.get(Calendar.MINUTE);
     int second = now.get(Calendar.SECOND);
     int millis = now.get(Calendar.MILLISECOND);
-
+    private static final int REQUEST_CODE=43;
+    TextView texto;
+    Button btn_abrir;
     Camera camera;
     FrameLayout frameLayout;
     MostrarCamara muestraCamara;
     private SurfaceHolder cameraSurfaceHolder = null;
+    //
+    private Uri imageCaptureUri;
+    private static final int PICK_FROM_CAMERA=1;
+    private static final int PICK_FROM_FILE=2;
+    //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,8 +67,87 @@ public class InicioCamara extends AppCompatActivity {
         camera = Camera.open();
         muestraCamara = new MostrarCamara(this,camera);
         frameLayout.addView(muestraCamara);
+        btn_abrir = (Button)findViewById(R.id.btnone);
+        texto = (TextView)findViewById(R.id.texto);
+
+        //selector de imagenes
+        final String[] items = new String[]{"Tomar con otra camara", "Desde archivos"};
+            ArrayAdapter<String> adapter=new ArrayAdapter<String>(this, android.R.layout.select_dialog_item,items);
+            AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        builder.setTitle("Seleccione Imagen");
+        builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (which == 0){
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        File file = new File(Environment.getExternalStorageDirectory(),"tmp_avatar"+String.valueOf(System.currentTimeMillis())+".jpeg");
+                        imageCaptureUri=Uri.fromFile(file);
+                        try {
+
+                            intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT,imageCaptureUri);
+                            intent.putExtra("return data",true);
+
+                            startActivityForResult(intent,PICK_FROM_CAMERA);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        dialog.cancel();
+                    }else{
+                        Intent intent = new Intent();
+                        intent.setType("image/*");
+                        intent.setAction(intent.ACTION_GET_CONTENT);
+                        startActivityForResult(Intent.createChooser(intent,"Accion completa usada"), PICK_FROM_FILE);
+                    }
+                }
+            });
+            final AlertDialog dialog = builder.create();
+            btn_abrir=(Button)findViewById(R.id.btnone);
+        btn_abrir.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    frameLayout.removeAllViews();
+                    dialog.show();
+                }
+            });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode != RESULT_OK)
+            return;
+        Bitmap bitmap = null;
+        String path="";
+        if (requestCode == PICK_FROM_FILE){
+            imageCaptureUri = data.getData();
+            path=getRealPathFromURI(imageCaptureUri);
+            System.out.println("he we aqui es la pinche path: "+path);
+            if (path == null)
+                path=imageCaptureUri.getPath();
+            if (path != null)
+                bitmap = BitmapFactory.decodeFile(path);
+        }else{
+            path=imageCaptureUri.getPath();
+            bitmap = BitmapFactory.decodeFile(path);
+        }
+        String hoy = String.valueOf(year) + String.valueOf(month) + String.valueOf(day) + "_" + String.valueOf(hour) +  String.valueOf(minute) + String.valueOf(second) + "_foto.jpeg";
+
+        Intent siguiente = new Intent(InicioCamara.this, VerFoto.class);
+        siguiente.putExtra("foto",path);
+        siguiente.putExtra("nombre_foto",hoy);
+        startActivity(siguiente);
 
 
+
+    }
+    public String getRealPathFromURI(Uri uri){
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = managedQuery(uri,proj,null,null,null);
+        if (cursor==null)return null;
+        int column_index=cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
     }
 
     final Camera.PictureCallback mPictureCallback = new Camera.PictureCallback() {
@@ -74,6 +174,7 @@ public class InicioCamara extends AppCompatActivity {
             }
         }
     };
+
 
     private File GuardaFoto() {
         InicioCamara main = new InicioCamara();
@@ -107,4 +208,5 @@ public class InicioCamara extends AppCompatActivity {
         final int ACTIVITY_SELECT_IMAGE = 1234;
         startActivityForResult(i, ACTIVITY_SELECT_IMAGE);
     }
+
 }

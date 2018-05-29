@@ -1,13 +1,20 @@
 package com.example.dany.proyectocamara;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,6 +27,8 @@ import java.net.URL;
 
 public class VerFoto extends AppCompatActivity {
     private ImageView imagen;
+
+    Button btn_abrir;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +37,12 @@ public class VerFoto extends AppCompatActivity {
         String dato=getIntent().getStringExtra("foto");
         Bitmap myBitmap = BitmapFactory.decodeFile(dato);
         imagen.setImageBitmap(myBitmap);
+
+
     }
+
+
+
     public void eliminar(View view){
         String dato=getIntent().getStringExtra("foto");
         File file = new File(dato);
