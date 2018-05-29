@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -27,7 +28,7 @@ import java.net.URL;
 
 public class VerFoto extends AppCompatActivity {
     private ImageView imagen;
-
+    private TextView mensaje;
     Button btn_abrir;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class VerFoto extends AppCompatActivity {
         String dato=getIntent().getStringExtra("foto");
         Bitmap myBitmap = BitmapFactory.decodeFile(dato);
         imagen.setImageBitmap(myBitmap);
+        mensaje=(TextView)findViewById(R.id.mensaje);
 
 
     }
@@ -71,6 +73,8 @@ public class VerFoto extends AppCompatActivity {
                     CifradoBytes cifrado = new CifradoBytes();
                     cifrado.copia(dato, folder, 1111111111);
                 }
+                File filed = new File(dato);
+                filed.delete();
                 Intent regresar = new Intent(VerFoto.this, InicioCamara.class);
                 startActivity(regresar);
             }

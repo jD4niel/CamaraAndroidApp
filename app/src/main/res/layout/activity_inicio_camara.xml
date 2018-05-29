@@ -8,24 +8,13 @@
     tools:context=".InicioCamara">
 
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="20dp"
-        android:background="@drawable/estilo_boton"
-        android:onClick="abrirGaleria"
-        android:text="Galeria"
-        android:textColor="#fff" />
-
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="471dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true">
 
     </FrameLayout>
 
@@ -39,22 +28,27 @@
         android:background="@drawable/boton_tomar_foto"
         android:onClick="TomarFoto" />
 
-    <Button
-        android:id="@+id/btnone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/button2"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="11dp"
-        android:text="Button" />
-
-    <TextView
-        android:id="@+id/texto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/button2"
+    <ImageButton
+        android:id="@+id/abrir_galeria"
+        android:layout_width="78dp"
+        android:layout_height="79dp"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="27dp"
-        android:text="TextView" />
+        android:layout_marginEnd="13dp"
+        android:background="@drawable/boton_galeria"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="13dp" />
 
+    <ImageButton
+        android:id="@+id/informacion"
+        android:onClick="info"
+        android:layout_width="61dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="13dp"
+        android:layout_marginStart="11dp"
+        android:background="@drawable/boton_info"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="11dp" />
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.example.dany.proyectocamara;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,6 +26,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,7 +50,7 @@ public class InicioCamara extends AppCompatActivity {
     int millis = now.get(Calendar.MILLISECOND);
     private static final int REQUEST_CODE=43;
     TextView texto;
-    Button btn_abrir;
+    ImageButton btn_abrir;
     Camera camera;
     FrameLayout frameLayout;
     MostrarCamara muestraCamara;
@@ -58,6 +60,7 @@ public class InicioCamara extends AppCompatActivity {
     private static final int PICK_FROM_CAMERA=1;
     private static final int PICK_FROM_FILE=2;
     //
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,8 +70,7 @@ public class InicioCamara extends AppCompatActivity {
         camera = Camera.open();
         muestraCamara = new MostrarCamara(this,camera);
         frameLayout.addView(muestraCamara);
-        btn_abrir = (Button)findViewById(R.id.btnone);
-        texto = (TextView)findViewById(R.id.texto);
+        btn_abrir = (ImageButton)findViewById(R.id.abrir_galeria);
 
         //selector de imagenes
         final String[] items = new String[]{"Tomar con otra camara", "Desde archivos"};
@@ -102,11 +104,11 @@ public class InicioCamara extends AppCompatActivity {
                 }
             });
             final AlertDialog dialog = builder.create();
-            btn_abrir=(Button)findViewById(R.id.btnone);
+            btn_abrir=(ImageButton)findViewById(R.id.abrir_galeria);
         btn_abrir.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    frameLayout.removeAllViews();
+
                     dialog.show();
                 }
             });
@@ -115,6 +117,7 @@ public class InicioCamara extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        frameLayout.removeAllViews();
         if(resultCode != RESULT_OK)
             return;
         Bitmap bitmap = null;
@@ -207,6 +210,19 @@ public class InicioCamara extends AppCompatActivity {
                 android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         final int ACTIVITY_SELECT_IMAGE = 1234;
         startActivityForResult(i, ACTIVITY_SELECT_IMAGE);
+    }
+
+    public void info(View view){
+        AlertDialog alertDialog = new AlertDialog.Builder(InicioCamara.this).create();
+        alertDialog.setTitle("Información");
+        alertDialog.setMessage("Criptografia \n Jesus Daniel Acosta \n Proyecto Final");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Ok tienes 10",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 
 }

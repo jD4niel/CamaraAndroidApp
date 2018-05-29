@@ -31,7 +31,7 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/estilo_boton"
         android:onClick="guardar"
-        android:text="cifrar"
+        android:text="cif/des"
         android:textColor="#fff"
         app:layout_constraintEnd_toStartOf="@+id/eliminar"
         app:layout_constraintHorizontal_bias="0.232"
@@ -42,14 +42,29 @@
         android:id="@+id/eliminar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="48dp"
-        android:layout_marginRight="48dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginRight="36dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/estilo_boton"
         android:onClick="eliminar"
         android:text="Eliminar"
         android:textColor="#fff"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/mensaje"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="72dp"
+        android:text="Si la imagen no se puede ver, ¡esta encriptada!"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
 </android.support.constraint.ConstraintLayout>
